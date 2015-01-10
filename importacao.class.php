@@ -13,6 +13,7 @@ header('Content-Type: text/html; charset=utf-8');
 		protected $contDuplicado = 0;
 
 		abstract protected function isPossuiPaginacao();
+		abstract protected function isPadraoCorretoHTML($url);
 		abstract protected function getHTMLFimAnuncios();
 		abstract protected function limpaCabecalho($html);
 		abstract protected function limpaRodape($html);

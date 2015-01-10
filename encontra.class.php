@@ -15,19 +15,43 @@ class encontra extends importacao{
 
 	/************************************************************************************************/
 
+
 	public function parseHTML($url, $exibeSaida=false){
 
 		try{
-			if ($this->gravaHTMLTemp($url)):
-				$this->limpaHTML();
+			if($this->isPadraoCorretoHTML($url)):
+				if ($this->gravaHTMLTemp($url)):
+						$this->limpaHTML();
 
-				if($this->isBoxUnico()):
-					$this->processaLayoutBoxUnico($exibeSaida);
-				else:
-					$this->processaLayoutVariosBox($exibeSaida);
-				endif;
-				$this->finalizaImportacao();
-			endif; 
+						if($this->isBoxUnico()):
+							$this->processaLayoutBoxUnico($exibeSaida);
+						else:
+							$this->processaLayoutVariosBox($exibeSaida);
+						endif;
+						$this->finalizaImportacao();
+				endif; 
+			else:
+				$dados = parse_url($url);
+				$urlPesquisada = $dados['host'];
+				echo "<h1>Está URL ({$urlPesquisada}) não pode ser processada com o padrão informado \"encontra\"!</h1>";
+			endif;
+
+		}catch(Exception $e){
+			echo 'Erro: ' . $e->getMessage();
+		}
+	}
+
+	/************************************************************************************************/
+
+	protected function isPadraoCorretoHTML($url){
+		try{
+			$contadoURL = substr_count($url, "encontra");
+
+			if ($contadoURL > 0):
+				return true;
+			else:
+				return false;
+			endif;
 
 		}catch(Exception $e){
 			echo 'Erro: ' . $e->getMessage();

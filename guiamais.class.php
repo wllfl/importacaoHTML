@@ -2,6 +2,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 ini_set('max_execution_time','-1');
+header('Content-Type: text/html; charset=utf-8');  
 
 require_once "importacao.class.php";
 require_once "simple_html_dom.php";
@@ -131,9 +132,9 @@ class guiamais extends importacao{
 				$fone        = (!empty($hFone))   ? strip_tags($hFone[0]) : '';
 
 				if($exibeSaida):
-					$this->imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone);
+					$this->imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, true);
 				else:
-					$this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone);
+					$this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, true);
 				endif;
 
 				$contAnuncio++;
@@ -197,9 +198,9 @@ class guiamais extends importacao{
 						$fone        = (!empty($hFone))   ? strip_tags($hFone[0]) : '';
 
 						if($exibeSaida):
-							$this->imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone);
+							$this->imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, true);
 						else:
-							$this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone);
+							$this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, true);
 						endif;
 						
 						$contAnuncio++;

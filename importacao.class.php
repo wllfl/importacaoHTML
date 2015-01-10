@@ -2,6 +2,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 ini_set('max_execution_time','-1');
+header('Content-Type: text/html; charset=utf-8');  
 	
 	abstract class importacao{
 
@@ -93,14 +94,16 @@ ini_set('max_execution_time','-1');
 		}
 
 
-		protected function insertAnuncio($titulo, $logradouro, $numero, $bairro, $cidade, $uf, $cep, $telefone){
+		protected function insertAnuncio($titulo, $logradouro, $numero, $bairro, $cidade, $uf, $cep, $telefone, $converteTexto=false){
 
 			try{
+
+				$titulo = ($converteTexto) ? trim($this->converteTextoCamelCase($titulo)) : trim($titulo);
 
 				if(!$this->isAnuncioDuplicado($titulo, $telefone)):
 					$sql = "INSERT INTO importacao_temp (titulo, endereco, numero, bairro, cidade, uf, telefone, cep, id_importacao)VALUES(?,?,?,?,?,?,?,?,?)";
 					$stm = $this->conexao->prepare($sql);
-					$stm->bindValue(1, trim($this->converteTexto($titulo)));
+					$stm->bindValue(1, trim($titulo));
 					$stm->bindValue(2, trim($logradouro));
 					$stm->bindValue(3, trim($numero));
 					$stm->bindValue(4, trim($bairro));
@@ -151,8 +154,8 @@ ini_set('max_execution_time','-1');
 		      return $data;
       	}
 
-      	protected function converteTexto($nome){
-			$nome = strtr(strtolower($nome),"ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÜÚÞß","àáâãäåæçèéêëìíîïðñòóôõö÷øùüúþÿ");
+      	protected function converteTextoCamelCase($nome){
+			$nome = strtr(strtolower($nome),"ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÜÚÞß", "àáâãäåæçèéêëìíîïðñòóôõö÷øùüúþÿ");
 			$palavra=explode(" ",$nome);
 			$nomeconvertido = "";
 
@@ -171,10 +174,11 @@ ini_set('max_execution_time','-1');
 			return $nomeconvertido;
 		}
 
-		protected function imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone){
+		protected function imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, $converteTexto=false){
 	    	try{
+	    		$titulo = ($converteTexto) ? trim($this->converteTextoCamelCase($titulo)) : trim($titulo);
 
-				echo "TÍTULO: " . $this->converteTexto($titulo)."<br>";
+				echo "TÍTULO: " . $titulo ."<br>";
 				echo "RUA: " . $endereco."<br>";
 				echo "NUMERO: " . $numero."<br>";
 				echo "BAIRRO: " . $bairro."<br>";

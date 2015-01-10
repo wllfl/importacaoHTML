@@ -62,6 +62,24 @@ class guiamais extends importacao{
 
 	/************************************************************************************************/
 
+	protected function isPadraoCorreto(){
+		try{
+			$html = file_get_contents("temp.html", true);
+			$contadoURL = substr_count($html, "www.guiamais");
+
+			if ($contadoURL > 0):
+				return true;
+			else:
+				return false;
+			endif;
+
+		}catch(Exception $e){
+			echo 'Erro: ' . $e->getMessage();
+		}
+	}
+
+	/************************************************************************************************/
+
 	protected function limpaHTML(){
 		try{
 			$html = file_get_contents("temp.html", true);

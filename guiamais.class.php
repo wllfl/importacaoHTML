@@ -22,16 +22,40 @@ class guiamais extends importacao{
 
 		try{
 			if ($this->gravaHTMLTemp($url)):
-				$this->limpaHTML();
+				if($this->isPadraoCorreto()):
+					$this->limpaHTML();
 
-				if ($this->isPossuiPaginacao()):	
-					$this->processaLayoutComPaginacao($exibeSaida);
+					if ($this->isPossuiPaginacao()):	
+						$this->processaLayoutComPaginacao($exibeSaida);
+					else:
+						$this->processaLayoutSemPaginacao($exibeSaida);
+					endif; 
+
+					$this->finalizaImportacao();
 				else:
-					$this->processaLayoutSemPaginacao($exibeSaida);
-				endif; 
-
-				$this->finalizaImportacao();
+					$dados = parse_url($url);
+					$urlPesquisada = $dados['host'];
+					echo "<h1>Está URL ({$urlPesquisada}) não pode ser processada com o padrão informado \"guiamais\"!</h1>";
+				endif;
 			endif; 
+
+		}catch(Exception $e){
+			echo 'Erro: ' . $e->getMessage();
+		}
+	}
+
+	/************************************************************************************************/
+
+	protected function isPadraoCorreto(){
+		try{
+			$html = file_get_contents("temp.html", true);
+			$contadoURL = substr_count($html, "www.guiamais");
+
+			if ($contadoURL > 0):
+				return true;
+			else:
+				return false;
+			endif;
 
 		}catch(Exception $e){
 			echo 'Erro: ' . $e->getMessage();

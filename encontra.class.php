@@ -212,7 +212,7 @@ class encontra extends importacao{
 
 	/************************************************************************************************/
 
-	protected function verificaFimAnuncios(){
+	protected function isPossuiPaginacao(){
 		///
 	}
 

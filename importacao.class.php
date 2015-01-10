@@ -11,7 +11,7 @@ ini_set('max_execution_time','-1');
 		protected $contInserido = 0;
 		protected $contDuplicado = 0;
 
-		abstract protected function verificaFimAnuncios();
+		abstract protected function isPossuiPaginacao();
 		abstract protected function getHTMLFimAnuncios();
 		abstract protected function limpaCabecalho($html);
 		abstract protected function limpaRodape($html);
@@ -66,7 +66,7 @@ ini_set('max_execution_time','-1');
 			}
 		}
 
-		protected function isDuplicadoAnuncio($titulo, $telefone){
+		protected function isAnuncioDuplicado($titulo, $telefone){
 			try{
 				$sql = "SELECT TOP 1 id FROM anuncios WHERE titulo = ? OR telefone = ? OR telefone2 = ? OR telefone3 = ? OR telefone4 = ? OR telefone5 = ? OR telefone6 = ?";
 				$stm = $this->conexao->prepare($sql);
@@ -97,7 +97,7 @@ ini_set('max_execution_time','-1');
 
 			try{
 
-				if(!$this->isDuplicadoAnuncio($titulo, $telefone)):
+				if(!$this->isAnuncioDuplicado($titulo, $telefone)):
 					$sql = "INSERT INTO importacao_temp (titulo, endereco, numero, bairro, cidade, uf, telefone, cep, id_importacao)VALUES(?,?,?,?,?,?,?,?,?)";
 					$stm = $this->conexao->prepare($sql);
 					$stm->bindValue(1, trim($this->converteTexto($titulo)));

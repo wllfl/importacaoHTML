@@ -9,8 +9,13 @@ require_once "factoryImportacao.class.php";
 //$pdo = Conexao::getInstance();
 //$importacao = new encontra($pdo, 1000);
 $importacao = factoryImportacao::getInstance("encontra");
+<<<<<<< HEAD
 $importacao->parseHTML("http://www.encontravotorantim.com.br/l/lanchonete-em-votorantim.shtml", true);
 //$importacao->parseHTML("http://www.guiamais.com.br/busca/pizzaria-votorantim", true);
+=======
+//$importacao->parseHTML("http://www.encontravotorantim.com.br/l/lanchonete-em-votorantim.shtml", true);
+$importacao->parseHTML("http://www.guiamais.com.br/busca/pizzaria-votorantim", true);
+>>>>>>> ea742a7e02bc79623dca86b8a30c44a04f23e560
 
 //function converteTexto($nome){
 	//$nome = trim(strtr($nome,"ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÜÚÞß", "àáâãäåæçèéêëìíîïðñòóôõö÷øùüúþÿ"));

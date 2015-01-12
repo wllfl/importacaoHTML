@@ -1,12 +1,13 @@
 <?php 
 
+require_once "../../conexao.php";
+
 class factoryImportacao{
 
 	public static function getInstance($padrao, $idImportacao){
 
 		switch ($padrao):
 			case 'encontra':
-				require_once "conexao.php";
 				require_once "encontra.class.php";
 				$pdo = Conexao::getInstance();
 				return new encontra($pdo, $idImportacao);
@@ -14,7 +15,6 @@ class factoryImportacao{
 				break;
 
 			case 'guiamais':
-				require_once "conexao.php";
 				require_once "guiamais.class.php";
 				$pdo = Conexao::getInstance();
 				return new guiamais($pdo, $idImportacao);

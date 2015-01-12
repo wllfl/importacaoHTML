@@ -33,6 +33,7 @@ class encontra extends importacao{
 				$dados = parse_url($url);
 				$urlPesquisada = $dados['host'];
 				echo "<h1>Está URL ({$urlPesquisada}) não pode ser processada com o padrão informado \"encontra\"!</h1>";
+				exit();
 			endif;
 
 		}catch(Exception $e){

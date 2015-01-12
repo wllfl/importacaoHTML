@@ -36,6 +36,7 @@ class guiamais extends importacao{
 				$dados = parse_url($url);
 				$urlPesquisada = $dados['host'];
 				echo "<h1>Está URL ({$urlPesquisada}) não pode ser processada com o padrão informado \"guiamais\"!</h1>";
+				exit();
 			endif;
 
 		}catch(Exception $e){

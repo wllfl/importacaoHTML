@@ -149,7 +149,9 @@ abstract class importacao{
 			$stm->bindValue(2, $this->contDuplicado);
 			$stm->bindValue(3, date('Y-m-d'));
 			$stm->bindValue(4, $this->idImportacao);
-			$retorno = $stm->execute();
+			$stm->execute();
+			
+			if(file_exists("temp.html")) unlink("temp.html");
 
 			echo "<script>window.close()</script>";
 		}catch(PDOException $e){

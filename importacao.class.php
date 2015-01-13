@@ -81,22 +81,36 @@ abstract class importacao{
 
 	protected function isAnuncioDuplicado($titulo, $telefone){
 		try{
-			$sql = "SELECT TOP 1 id FROM anuncios WHERE titulo = ? OR telefone = ? OR telefone2 = ? OR telefone3 = ? OR telefone4 = ? OR telefone5 = ? OR telefone6 = ?";
-			$stm = $this->conexao->prepare($sql);
-			$stm->bindValue(1, $titulo);
-			$stm->bindValue(2, $telefone);
-			$stm->bindValue(3, $telefone);
-			$stm->bindValue(4, $telefone);
-			$stm->bindValue(5, $telefone);
-			$stm->bindValue(6, $telefone);
-			$stm->bindValue(7, $telefone);
-			$stm->execute();
-			$retorno = $stm->fetch(PDO::FETCH_OBJ);
 
-			if (!empty($retorno)):
-				return true;
+			if(!empty($titulo)):
+
+				$where = (empty($telefone)) ? "WHERE titulo = ?" : "WHERE titulo = ? OR telefone = ? OR telefone2 = ? OR telefone3 = ? OR telefone4 = ? OR telefone5 = ? OR telefone6 = ?" ;
+
+				$sql = "SELECT TOP 1 id FROM anuncios " . $where;
+				$stm = $this->conexao->prepare($sql);
+
+				if(empty($telefone)):
+					$stm->bindValue(1, $titulo);
+				else:
+					$stm->bindValue(1, $titulo);
+					$stm->bindValue(2, $telefone);
+					$stm->bindValue(3, $telefone);
+					$stm->bindValue(4, $telefone);
+					$stm->bindValue(5, $telefone);
+					$stm->bindValue(6, $telefone);
+					$stm->bindValue(7, $telefone);
+				endif;
+
+				$stm->execute();
+				$retorno = $stm->fetch(PDO::FETCH_OBJ);
+
+				if (!empty($retorno)):
+					return true;
+				else:
+					return false;
+				endif;
 			else:
-				return false;
+				return true;
 			endif;
 
 		}catch(PDOException $e){

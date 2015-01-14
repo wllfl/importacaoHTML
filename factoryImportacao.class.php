@@ -1,6 +1,6 @@
 <?php 
 
-require_once "../../conexao.php";
+require_once "conexao.class.php";
 
 class factoryImportacao{
 
@@ -18,6 +18,13 @@ class factoryImportacao{
 				require_once "guiamais.class.php";
 				$pdo = Conexao::getInstance();
 				return new guiamais($pdo, $idImportacao);
+
+				break;
+
+			case 'apontador':
+				require_once "apontador.class.php";
+				$pdo = Conexao::getInstance();
+				return new apontador($pdo, $idImportacao);
 
 				break;
 			

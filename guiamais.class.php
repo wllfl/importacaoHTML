@@ -179,7 +179,7 @@ class guiamais extends importacao{
 
 			while (!$fimLoop && $contAnuncio <= $this->limteAnuncio):
 
-				if ($this->gravaHTMLTemp($url . "?page=".$page)):
+				if ($this->isHTMLTempGravado($url . "?page=".$page)):
 
 					$strTemp = file_get_contents("temp.html", true);
 					if ($page > 1):

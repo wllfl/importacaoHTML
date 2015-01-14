@@ -7,7 +7,7 @@ header('Content-Type: text/html; charset=utf-8');
 abstract class importacao{
 
 	protected $conexao = null;
-	protected $limteAnuncio = 30;
+	protected $limteAnuncio = 100;
 	protected $idImportacao = 0;
 	protected $contInserido = 0;
 	protected $contDuplicado = 0;

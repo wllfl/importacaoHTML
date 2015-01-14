@@ -79,6 +79,21 @@ abstract class importacao{
 
 	/***********************************************************************************************************************************/
 
+	protected function file_get_contents_curl($url) {
+	      $ch = curl_init();
+	      curl_setopt($ch, CURLOPT_HEADER, 0);
+	      curl_setopt($ch, CURLOPT_TIMEOUT, 900); 
+		  curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);   
+	      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+	      curl_setopt($ch, CURLOPT_URL, $url);
+	      $data = curl_exec($ch);
+	      curl_close($ch);
+
+	      return $data;
+  	}
+
+	/***********************************************************************************************************************************/
+
 	protected function isAnuncioDuplicado($titulo, $telefone){
 		try{
 
@@ -173,19 +188,6 @@ abstract class importacao{
 		}
 	}
 
-	/***********************************************************************************************************************************/
-
-	protected function file_get_contents_curl($url) {
-	      $ch = curl_init();
-	      curl_setopt($ch, CURLOPT_HEADER, 0);
-		  curl_setopt($ch, CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 6.1; es-CL; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3');    
-	      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-	      curl_setopt($ch, CURLOPT_URL, $url);
-	      $data = curl_exec($ch);
-	      curl_close($ch);
-
-	      return $data;
-  	}
 
 	/***********************************************************************************************************************************/
 

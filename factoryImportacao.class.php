@@ -1,6 +1,6 @@
 <?php 
 
-require_once "conexao.class.php";
+require_once "../../../conexao.php";
 
 class factoryImportacao{
 

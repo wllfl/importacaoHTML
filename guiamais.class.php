@@ -30,7 +30,8 @@ class guiamais extends importacao{
 						else:
 							$this->processaLayoutSemPaginacao($exibeSaida);
 						endif; 
-						$this->finalizaImportacao();
+
+						if(!$exibeSaida) $this->finalizaImportacao();
 				endif; 
 			else:
 				$dados = parse_url($url);

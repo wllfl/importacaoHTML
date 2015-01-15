@@ -29,8 +29,9 @@ class apontador extends importacao{
 							$this->processaLayoutComPaginacao($url, $exibeSaida);
 						else:
 							$this->processaLayoutSemPaginacao($exibeSaida);
-						endif; 
-						//$this->finalizaImportacao();
+						endif;
+
+						if(!$exibeSaida) $this->finalizaImportacao();
 				endif; 
 			else:
 				$dados = parse_url($url);

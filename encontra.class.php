@@ -27,7 +27,8 @@ class encontra extends importacao{
 					else:
 						$this->processaLayoutVariosBox($exibeSaida);
 					endif;
-					$this->finalizaImportacao();
+					
+					if(!$exibeSaida) $this->finalizaImportacao();
 				endif; 
 			else:
 				$dados = parse_url($url);

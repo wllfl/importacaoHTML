@@ -139,6 +139,12 @@ class apontador extends importacao{
 
 				if ($contAnuncio > $this->limteAnuncio) break;
 
+				if($this->isEnviaRequisicaoPhone($element)):
+					$arrayDados = $this->htmlComAtributo($element);
+				else:
+					$arrayDados = $this->htmlSemAtributo($element);
+				endif;
+
 				$titulo = "";
 				$endereco = "";
 				$numero = "";
@@ -147,40 +153,12 @@ class apontador extends importacao{
 				$uf = "";
 				$cep = "";
 				$fone = "";
-
-				$anuncio        = str_get_html($this->file_get_contents_curl($element->href));
-				$hTitulo        = $anuncio->find('header[class=poi-header] h1[itemprop=name]');
-				$hRuaNumero     = $anuncio->find('span[itemprop=streetAddress]');
-				$hBairro        = $anuncio->find('li[itemprop="address]');
-				$hCidadeUfCep   = $anuncio->find('span[itemprop=addressLocality]');
-				$hFone          = $anuncio->find('li[class=item info-icon info-icon-phone] strong');
-
-				$arrayBairro    = (!empty($hBairro)) ? explode(", ", $hBairro[0]): ''; 
-				$stringTemp     = (!empty($hCidadeUfCep)) ? str_replace(", CEP:", " - ", strip_tags($hCidadeUfCep[0])) : '';
-				$arrayCidadeUfCep = explode(" - ", $stringTemp); 					
-				$arrayRuaNumero = (!empty($hRuaNumero)) ? explode(",", $hRuaNumero[0]): '';
-
-				if (count($arrayBairro) > 4):
-					$bairroTratado  = (!empty($arrayBairro[3])) ? str_replace(array('SP', '-', 'Votorantim', '—', 'Como chegar'), "", strip_tags($arrayBairro[3])) : '';
-				else: 
-					$bairroTratado  = (!empty($arrayBairro[2])) ? str_replace(array('SP', '-', 'Votorantim', '—', 'Como chegar'), "", strip_tags($arrayBairro[2])) : '';
-				endif;
-
-
-				$titulo      = (!empty($hTitulo)) ? strip_tags($hTitulo[0]) : '';
-				$endereco    = (!empty($arrayRuaNumero[0])) ? strip_tags($arrayRuaNumero[0]) : ''; 
-				$numero      = (count($arrayRuaNumero) > 1) ? strip_tags($arrayRuaNumero[1]) : '';
-				$bairro      = (!empty($bairroTratado)) ? $bairroTratado : '';
-				$cidade      = (!empty($arrayCidadeUfCep[0])) ? strip_tags($arrayCidadeUfCep[0]) : '';
-				$cep         = (!empty($arrayCidadeUfCep[2])) ? strip_tags($arrayCidadeUfCep[2]) : '';
-				$uf          = (!empty($arrayCidadeUfCep[1])) ? strip_tags($arrayCidadeUfCep[1]) : '';
-				$dataContent   = "data-content";
-				$fone          = (!empty($hFone))   ? strip_tags($hFone[0]->$dataContent) : '';
+				list($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone) = $arrayDados;
 
 				if($exibeSaida):
-					$this->imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, true);
+					$this->imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, false);
 				else:
-					//$this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, true);
+					if(!empty($fone)) $this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, false);
 				endif;
 
 				unset($titulo);
@@ -241,13 +219,14 @@ class apontador extends importacao{
 						if($exibeSaida):
 							$this->imprimeSaida($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, false);
 						else:
-							$this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, false);
+							if(!empty($fone)) $this->insertAnuncio($titulo, $endereco, $numero, $bairro, $cidade, $uf, $cep, $fone, false);
 						endif;
 
 						$contAnuncio++;
 					endforeach;
 						
 					if (file_exists("temp.html")) unlink('temp.html');
+					$page++;
 				endif;
 			endwhile;
 
